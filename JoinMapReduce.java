@@ -22,6 +22,7 @@ public class JoinMapReduce extends Configured implements Tool
        
         public static class Reducer extends DataJoinReducerBase
             {
+                //Join takes place here, by combine() function
                 protected TaggedMapOutput combine(Object[] join_tags, Object[] values) 
                     {
                 		int i=0;
@@ -43,6 +44,7 @@ public class JoinMapReduce extends Configured implements Tool
                         return tw;
                     }
             }
+        //This function begins the job execution, using the default configuration
         public int execute(String[] args) throws Exception 
         {
 
@@ -52,7 +54,7 @@ public class JoinMapReduce extends Configured implements Tool
                             String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
                             if (otherArgs.length != 2) 
                             {
-                              System.err.println("Usage: wordcount <in> <out>");
+                              System.err.println("Wrong Argument Count");
                               System.exit(2);
                             }
 
@@ -61,16 +63,17 @@ public class JoinMapReduce extends Configured implements Tool
             FileInputFormat.setInputPaths(job, input);
             FileOutputFormat.setOutputPath(job, output);
             job.setJobName("JoinMapReduce");
-            job.setMapperClass(MapClass.class);
-            job.setReducerClass(Reducer.class);
             job.setInputFormat(TextInputFormat.class);
             job.setOutputFormat(TextOutputFormat.class);
             job.setOutputKeyClass(Text.class);
             job.setOutputValueClass(FlagInput.class);
+            job.setMapperClass(MapClass.class);
+            job.setReducerClass(Reducer.class);
             job.set("mapred.textoutputformat.separator", ",");
             JobClient.runJob(job);
             return 0;
         }
+        //Specifies default and overridden constructors for FlagInput
         public static class FlagInput extends TaggedMapOutput {
     private Writable data;
 
