@@ -8,3 +8,5 @@ http://ydn.zenfs.com/site/hadoop/hadoop-vm-appliance-0-18-0_v1.zip
 4. Setup MapReduce location in Eclipse to point to HDFS running on your virtual machine
 
 5. Run <JoinMapReduce.java> as MapReduce job
+
+Note: This file has a lot of dependencies and may have compliation errors. It requires the plugin to be properly configured.
